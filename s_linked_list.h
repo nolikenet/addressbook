@@ -1,23 +1,22 @@
-#include "s_node.h"all
+#include "s_node.h"
+#include <stddef.h>
 
 #ifndef LinkedList_H_  
 #define LinkedList_H_
 
-struct s_linked_list
-{
-	Node *head;
-	Node *tail;
-};
+typedef struct { s_node *head;  s_node *tail; int length; } s_linked_list;
 
-typedef struct s_linked_list LinkedList;
+s_linked_list *create_linked_list();
 
-void push(Node *head, void *data);
+void push_to_list(s_linked_list *list, void *data);
 
-void remove_first(Node *head);
+void remove_from_list(s_linked_list *list, void* node);
 
-void remove_last(Node *head);
+void remove_first(s_node *head);
 
-int get_length(Node *head);
+void remove_last(s_linked_list* list);
+
+int get_length(s_node *head);
 #endif // FOO_H_
 
 

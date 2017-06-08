@@ -1,12 +1,6 @@
 #ifndef s_node_H_  
 #define s_node_H_
 
-struct s_node
-{
-	void *data;
-	struct s_node *next;
-};
-
-typedef struct s_node Node;
+typedef struct { void *data; struct s_node *next; } s_node;
 
 #endif

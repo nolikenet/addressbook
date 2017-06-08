@@ -1,55 +1,129 @@
 #include "s_linked_list.h"
+#include "common.h"
+#include "s_contact.h"
 
+s_linked_list *create_linked_list() {
+	s_linked_list *list = malloc(sizeof(s_linked_list));
+	list->head = NULL;
+	list->tail = NULL;
 
-void push(Node *head, void *data)
-{
-	Node *current = head;
+	list->length = 0;
 
-	printf("\n %p", head);
-	while (current->next != 0)
-	{
-		current = current->next;
-	}
-
-	current->next = malloc(sizeof(Node));
-	printf("\n Next data %p", current->next->data);
-	current->next->data = data;
-	current->next->next = 0;
-   	printf("\n Next data %p", current->next->data);
+	return list;
 }
 
-void remove_first(Node *head)
-{
-	Node *temp = 0;
-	printf("\n Node Before removing %p", head);
- 	temp = head->next;
- 	free(head);
- 	head = temp; 
- 	printf("\nNode removed %p", head);
+void push_to_list(s_linked_list *list, void *data) {
+	printf("\n Pushing to the list");
+	s_node* new_item = malloc(sizeof(s_node));
+
+	new_item->data = data;
+	new_item->next = NULL;
+
+	if (list->head == NULL)
+	{
+		list->head = new_item;
+	}
+
+	else if(list->tail == NULL)
+	{
+		list->tail = new_item;
+		list->head->next = list->tail;
+	}
+
+	else
+	{
+		list->tail->next = new_item;
+		list->tail = list->tail->next;
+	}
+
+	list->length += 1;
 }
 
-void remove_last(Node *head)
-{
-	Node *current = head;
+void remove_from_list(s_linked_list *list, void *data) {
 
-	while(current->next != 0)
+	s_node* temp = list->head;
+	s_node* prev = NULL;
+
+	while(temp != NULL)
 	{
-		current = current->next;
+		if (temp->data == data)
+		{
+			if(list->head == temp)
+			{
+				list->head = list->head->next;
+			}
+
+			if(prev != NULL) prev->next = temp->next;
+
+			free(temp->data);
+			free(temp);
+			list->length -= 1;
+			break;
+		}
+		prev = temp;
+		temp = temp->next;
 	}
-	free(current);
-	current = 0;
-	printf("\n Current data should be 0 %p", current);
 }
 
-int get_length(Node *head)
-{
-	unsigned int i = 0;
-	Node *current = head;
-	while(current->next != 0)
+s_node* get_list_head(s_linked_list* list) {
+	// printf("\n Popping from the list");
+	// s_node* temp = list->head;
+	//s_node temp = (*(*list).head);
+	//list->head = list->head->next;
+	//free(list->head);
+	//list->length -= 1;
+	
+	// return temp;
+}
+
+void remove_last(s_linked_list* list) {
+
+	if (list->head->next == NULL)
 	{
-		i++;
-		current = current->next;
+		printf("\n There is only head left, removing it");
+		free(list->head->data);
+		list->head = NULL;
+		return;
 	}
-	printf("\n Current length %i", i);
-	return i;
+
+	s_node* prevTail = list->head;
+
+	while (prevTail->next != list->tail)
+	{
+		prevTail = prevTail->next;
+	}
+
+	printf("\n Found tail!");
+	s_node* tempNext = prevTail->next;
+	free(tempNext->data);
+	free(tempNext);
+
+	prevTail->next = NULL;
+	list->tail = prevTail;
+
+	printf("\n Last item in tail removed");
+}
+
+void print_list(s_linked_list *list)
+{
+	printf("\n Printing list ");
+
+	s_node* temp = list->head;
+	if (temp == NULL)
+	{
+		printf("\n List is empty");
+		return;
+	}
+
+
+	while(temp != NULL)
+	{
+		s_contact* tempContact = temp->data;
+		printf("\n Value is %i", tempContact->id);
+		temp = temp->next;
+	}
+}
+
+int get_list_length(s_linked_list *list) {
+	return list->length;
 }
