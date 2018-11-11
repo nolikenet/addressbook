@@ -13,7 +13,6 @@ s_linked_list *create_linked_list() {
 }
 
 void push_to_list(s_linked_list *list, void *data) {
-	printf("\n Pushing to the list");
 	s_node* new_item = malloc(sizeof(s_node));
 
 	new_item->data = data;
@@ -65,17 +64,6 @@ void remove_from_list(s_linked_list *list, void *data) {
 	}
 }
 
-s_node* get_list_head(s_linked_list* list) {
-	// printf("\n Popping from the list");
-	// s_node* temp = list->head;
-	//s_node temp = (*(*list).head);
-	//list->head = list->head->next;
-	//free(list->head);
-	//list->length -= 1;
-	
-	// return temp;
-}
-
 void remove_last(s_linked_list* list) {
 
 	if (list->head->next == NULL)
@@ -93,21 +81,16 @@ void remove_last(s_linked_list* list) {
 		prevTail = prevTail->next;
 	}
 
-	printf("\n Found tail!");
 	s_node* tempNext = prevTail->next;
 	free(tempNext->data);
 	free(tempNext);
 
 	prevTail->next = NULL;
 	list->tail = prevTail;
-
-	printf("\n Last item in tail removed");
 }
 
 void print_list(s_linked_list *list)
 {
-	printf("\n Printing list ");
-
 	s_node* temp = list->head;
 	if (temp == NULL)
 	{
@@ -115,11 +98,9 @@ void print_list(s_linked_list *list)
 		return;
 	}
 
-
 	while(temp != NULL)
 	{
 		s_contact* tempContact = temp->data;
-		printf("\n Value is %i", tempContact->id);
 		temp = temp->next;
 	}
 }

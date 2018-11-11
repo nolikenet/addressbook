@@ -1,0 +1,16 @@
+{ 
+    "contacts": [
+        {
+            "name": "arthur",
+            "surname": "bohd",
+            "address": "50 Boulevard st.",
+            "phone": 1231545
+        },
+        {
+            "name": "John",
+            "surname": "Wick",
+            "address": "21 Franklin Road st.",
+            "phone": 6523112
+        }
+    ]
+}

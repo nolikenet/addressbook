@@ -1,5 +1,6 @@
 #include "s_node.h"
 #include <stddef.h>
+#include <stdlib.h>
 
 #ifndef LinkedList_H_  
 #define LinkedList_H_
@@ -17,6 +18,6 @@ void remove_first(s_node *head);
 void remove_last(s_linked_list* list);
 
 int get_length(s_node *head);
-#endif // FOO_H_
+#endif
 
 

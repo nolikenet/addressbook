@@ -6,5 +6,5 @@
 void destroy(void *item)
 {
 	free(item);
-	printf("\n item has been destroyed %p", item);
+    item = NULL;
 }
