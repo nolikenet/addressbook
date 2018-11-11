@@ -7,8 +7,6 @@
 #include "common.h"
 #include "deps/cJSON.c"
 
-#define USER_INPUT_MAX_SIZE 40
-
 const char* DATA_PATH = "data/data.json";
 
 s_linked_list* contact_list; 
@@ -73,7 +71,6 @@ char* read_storage(char* path)
     fread(buff, sizeof(char), sizeof(char) * len, fp);
     fclose(fp);
     fp = NULL;
-    printf("buff read %s \n", buff);
     return buff;
 }
 
@@ -87,10 +84,9 @@ void search_contact(char* query)
         strcat(concat_str, data->name);
         strcat(concat_str, data->surname);
 
-        printf("Searching for concat: %s, query: %s \n ", concat_str, query);
         if (strcmp(concat_str, query) == 0 )
         {
-            printf("found data. Name: %s, Surname: %s, Address: %s, Phone: %d \n ", data->name, data->surname, data->address, data->phone);
+            printf("Contact found. \n Name: %s, Surname: %s, Address: %s, Phone: %d \n ", data->name, data->surname, data->address, data->phone);
             destroy(concat_str);
             destroy(query);
             return;
@@ -103,39 +99,14 @@ void search_contact(char* query)
 
 }
 
-void write_data(char* path, char* buff)
-{
-    /*FILE* fp;
-    fp = fopen(path, "r");*/
-
-}
-
-void find_contact_by_name(s_linked_list* list, char* name)
-{
-	s_node* temp = list->head;
-	while(temp != NULL)
-	{
-		s_contact* c = temp->data;
-		if (strcmp(c->name, name) == 0)
-		{
-			printf("Found contact. \n");
-			printf("Name: %s \n ", c->name);
-			printf("Surname: %s \n ", c->surname);
-			printf("Phone Number: %d \n ", c->phone);
-		}
-
-		temp = temp->next;
-	}
-}
-
 void handle_prompt(s_linked_list* contact_list){
 	int input;
-    printf("\n Choose Action: \n 1. Find Contact \n 2. Add Contact \n 3. Delete Contact \n 4. Print Contact \n 5. Exit \n");
+    printf("\n Choose Action: \n 1. Find Contact \n 2. Add Contact \n 3. Exit \n");
     scanf("%d", &input);
 
     if (input > 5 || input < 0)
     {
-    	printf("Error. Please, type in numeric values from 1 to 5 \n");
+    	printf("Please, type in numeric values from 1 to 5 \n");
     	handle_prompt(contact_list);
     }
 
@@ -160,8 +131,6 @@ void handle_prompt(s_linked_list* contact_list){
     else if (input == 2) 
     {
     	push_to_list(contact_list, user_input_add_contact());
-
-	    printf("List length is %d \n ", get_list_length(contact_list));
 
 	    handle_prompt(contact_list);
     }
