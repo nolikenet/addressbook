@@ -12,7 +12,7 @@ s_linked_list *create_linked_list() {
 	return list;
 }
 
-void push_to_list(s_linked_list *list, void *data) {
+bool push_to_list(s_linked_list *list, void *data) {
 	s_node* new_item = malloc(sizeof(s_node));
 
 	new_item->data = data;
@@ -36,6 +36,8 @@ void push_to_list(s_linked_list *list, void *data) {
 	}
 
 	list->length += 1;
+
+    return true;
 }
 
 void remove_from_list(s_linked_list *list, void *data) {
@@ -107,4 +109,24 @@ void print_list(s_linked_list *list)
 
 int get_list_length(s_linked_list *list) {
 	return list->length;
+}
+
+bool is_list_empty(s_linked_list *list)
+{
+    return list->length == 0;
+}
+
+void* list_last_element(s_linked_list* list)
+{
+    if (is_list_empty(list))
+    {
+        printf("List is empty \n");
+        return NULL;
+    }
+    if (list->tail == NULL)
+    {
+        return list->head->data;
+    }
+
+    return list->tail->data;
 }
