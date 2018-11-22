@@ -1,4 +1,4 @@
-#include "s_linked_list.h"
+#include "data_structures/s_linked_list.h"
 #include "common.h"
 #include "s_contact.h"
 
@@ -13,7 +13,7 @@ s_linked_list *create_linked_list() {
 }
 
 bool push_to_list(s_linked_list *list, void *data) {
-	s_node* new_item = malloc(sizeof(s_node));
+	struct s_node* new_item = malloc(sizeof(struct s_node));
 
 	new_item->data = data;
 	new_item->next = NULL;
@@ -42,8 +42,8 @@ bool push_to_list(s_linked_list *list, void *data) {
 
 void remove_from_list(s_linked_list *list, void *data) {
 
-	s_node* temp = list->head;
-	s_node* prev = NULL;
+	struct s_node* temp = list->head;
+	struct s_node* prev = NULL;
 
 	while(temp != NULL)
 	{
@@ -76,14 +76,14 @@ void remove_last(s_linked_list* list) {
 		return;
 	}
 
-	s_node* prevTail = list->head;
+	struct s_node* prevTail = list->head;
 
 	while (prevTail->next != list->tail)
 	{
 		prevTail = prevTail->next;
 	}
 
-	s_node* tempNext = prevTail->next;
+	struct s_node* tempNext = prevTail->next;
 	free(tempNext->data);
 	free(tempNext);
 
@@ -93,7 +93,7 @@ void remove_last(s_linked_list* list) {
 
 void print_list(s_linked_list *list)
 {
-	s_node* temp = list->head;
+	struct s_node* temp = list->head;
 	if (temp == NULL)
 	{
 		printf("\n List is empty");

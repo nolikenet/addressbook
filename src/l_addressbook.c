@@ -1,60 +1,24 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stddef.h>
-#include "s_node.h"
-#include "s_linked_list.h"
-#include "s_contact.h" 
-#include "common.h"
-#include "deps/cJSON.c"
+#include "l_addressbook.h"
 
-const char* DATA_PATH = "data/data.json";
-
-s_linked_list* contact_list = NULL; 
 cJSON* json_root_object = NULL;
 
-s_contact* user_input_add_contact()
+s_linked_list* address_book_init(char* data_path)
 {
-	 printf("Type in person's Name \n ");
-	 char* name[TEXT_FIELD_MAX_SIZE];
-	 scanf("%s", name);
+    s_linked_list* contact_list = create_linked_list();
 
-	 printf("Type in person's Surname \n ");
-	 char* surname[TEXT_FIELD_MAX_SIZE];
-	 scanf("%s", surname);
+    printf("contact list addr %p \n", contact_list);
 
-	 printf("Type in person's phone number \n ");
-	 int phoneNumber;
-	 scanf("%d", &phoneNumber);
-
-     printf("Type in person's address \n ");
-     char* address[TEXT_FIELD_MAX_SIZE];
-     scanf("%s", address);
-
-     int id = 0;
-     s_contact* latest_contact;
-
-     if (is_list_empty(contact_list)) {   } 
-
-     else 
-     {
-        latest_contact = (s_contact*)list_last_element(contact_list);
-        id = latest_contact->id + 1;
-     }
-
-     printf("Writing contact id %d \n ", id);
-
-	 s_contact* contact = create_contact(id, name, surname, address, phoneNumber);
-     latest_contact = NULL;
-
-	 return contact;
+    populate_list_from_buffer(read_storage(data_path), contact_list);
+    
+    printf("contact list addr 2! %p \n", contact_list);
+    return contact_list;
 }
 
-
-void populate_list_from_buffer(char* buff)
+void populate_list_from_buffer(char* buff, s_linked_list* contact_list)
 {
     json_root_object = cJSON_Parse(buff);
-    const cJSON* contacts = NULL;
-    const cJSON* contact = NULL;
+    cJSON* contacts = NULL;
+    cJSON* contact = NULL;
 
     contacts = cJSON_GetObjectItemCaseSensitive(json_root_object, "contacts");
 
@@ -73,6 +37,10 @@ void populate_list_from_buffer(char* buff)
              printf("\n");
         }
     }
+    printf("contact list addr in populate list %p \n", contact_list);
+
+    s_contact* cont = (s_contact*)contact_list->head->data;
+    printf("CONTACT PHONE IS %d \n", cont->phone);
 }
 
 char* read_storage(char* path)
@@ -88,9 +56,10 @@ char* read_storage(char* path)
     return buff;
 }
 
-s_contact* search_contact(char* query)
+s_contact* search_contact(const char* query, s_linked_list* contact_list)
 {
-    s_node* tmp = contact_list->head;
+    struct s_node* tmp = contact_list->head;
+
     while(tmp != NULL)
     {
         s_contact* data = tmp->data;
@@ -114,7 +83,8 @@ s_contact* search_contact(char* query)
     return tmp; 
 }
 
-bool json_write_contact(s_contact* contact)
+
+bool json_write_contact(s_contact* contact, s_linked_list* contact_list)
 {
     printf("Writing Contact \n ");
     if (push_to_list(contact_list, contact) != true)
@@ -143,7 +113,7 @@ void save_data(const char* path)
     fclose(fp);
 }
 
-void remove_contact_by_id(unsigned int id)
+void remove_contact_by_id(unsigned int id, s_linked_list* contact_list)
 {
     printf("Trying to remove \n ");
     if (is_list_empty(contact_list))
@@ -166,7 +136,7 @@ void remove_contact_by_id(unsigned int id)
         index++;
     }
 
-    s_node* temp = contact_list->head;
+    struct s_node* temp = contact_list->head;
     while(temp->next != NULL)
     {
         s_contact* contact = temp->data;
@@ -178,73 +148,4 @@ void remove_contact_by_id(unsigned int id)
         }
         temp = temp->next;
     }
-}
-
-void handle_prompt(s_linked_list* contact_list){
-	int input;
-    printf("\n Choose Action: \n 1. Find Contact \n 2. Add Contact \n 3. Remove Contact by id \n 4. Save and exit. \n");
-    scanf("%d", &input);
-
-    if (input > 4 || input < 1)
-    {
-    	printf("Please, type in numeric values from 1 to 5 \n");
-    	handle_prompt(contact_list);
-    }
-
-    if (input == 1)
-    {
-    	char* name[TEXT_FIELD_MAX_SIZE];
-    	printf("Enter person's name: \n");
-        scanf("%s", name);
-
-        char* surname[TEXT_FIELD_MAX_SIZE];
-    	printf("Enter person's surname: \n");
-        scanf("%s", surname);
-
-        char* query = calloc(strlen(name) + strlen(surname) + 1, sizeof(char));
-
-        strcat(query, name);
-        strcat(query, surname);
-        printf("Searching for name %s \n ", query);
-        search_contact(query);
-        handle_prompt(contact_list);
-    }
-
-    else if (input == 2) 
-    {
-    	json_write_contact(user_input_add_contact());
-
-	    handle_prompt(contact_list);
-    }
-
-    else if (input == 3)
-    {
-        printf("Write down contact id to remove: \n");
-        unsigned int id;
-        scanf("%d", &id);
-        printf("Trying to remove \n " );
-        remove_contact_by_id(id);
-        handle_prompt(contact_list);
-    }
-
-    else if(input == 4)
-    {
-        printf("saving data to a file... \n ");
-        save_data(DATA_PATH);
-        printf("successfuly saved. \n ");
-    }
-}
-
-
-int main()
-{
-    contact_list = create_linked_list();
-
-    populate_list_from_buffer(read_storage(DATA_PATH));
-	
-	handle_prompt(contact_list);
-
-    destroy(contact_list);
-	
-	return 0;
 }

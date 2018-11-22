@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <stdio.h>
 #define TEXT_FIELD_MAX_SIZE 20
 
 typedef struct 
