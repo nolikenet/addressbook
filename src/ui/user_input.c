@@ -4,11 +4,11 @@ s_contact* user_input_add_contact(s_linked_list* contact_list)
 {
 	 printf("Type in person's Name \n ");
 	 char name[TEXT_FIELD_MAX_SIZE];
-	 scanf("%s", name);
+	 scanf("%TEXT_FIELD_MAX_SIZEs", name);
 
 	 printf("Type in person's Surname \n ");
 	 char surname[TEXT_FIELD_MAX_SIZE];
-	 scanf("%s", surname);
+	 scanf("%TEXT_FIELD_MAX_SIZEs", surname);
 
 	 printf("Type in person's phone number \n ");
 	 int phoneNumber;
@@ -16,7 +16,7 @@ s_contact* user_input_add_contact(s_linked_list* contact_list)
 
      printf("Type in person's address \n ");
      char address[TEXT_FIELD_MAX_SIZE];
-     scanf("%s", address);
+     scanf("%TEXT_FIELD_MAX_SIZEs", address);
 
      int id = 0;
      s_contact* latest_contact;
@@ -53,20 +53,19 @@ void handle_prompt(s_linked_list* contact_list, char* data_path)
     {
     	char name[TEXT_FIELD_MAX_SIZE];
     	printf("Enter person's name: \n");
-        scanf("%s", name);
+        scanf("%TEXT_FIELD_MAX_SIZEs", name);
 
         printf("Name is %s ", name);
 
         char surname[TEXT_FIELD_MAX_SIZE];
     	printf("Enter person's surname: \n");
-        scanf("%s", surname);
+        scanf("%TEXT_FIELD_MAX_SIZEs", surname);
 
         const char* query = calloc(strlen(name) + strlen(surname) + 1, sizeof(char));
 
         strcat(query, name);
         strcat(query, surname);
 
-        printf("Searching for name %s \n ", query);
         search_contact(query, contact_list);
         handle_prompt(contact_list, data_path);
     }
@@ -83,7 +82,7 @@ void handle_prompt(s_linked_list* contact_list, char* data_path)
         printf("Write down contact id to remove: \n");
         unsigned int id;
         scanf("%d", &id);
-        printf("Trying to remove \n " );
+        printf("Trying to remove... \n " );
         remove_contact_by_id(id, contact_list);
         handle_prompt(contact_list, data_path);
     }
