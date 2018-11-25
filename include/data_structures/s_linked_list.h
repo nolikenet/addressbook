@@ -8,21 +8,21 @@
 
 typedef struct { struct s_node *head;  struct s_node *tail; int length; } s_linked_list;
 
-s_linked_list *create_linked_list();
+s_linked_list *v_list_create();
 
-bool push_to_list(s_linked_list *list, void *data);
+bool v_list_push(s_linked_list *list, void *data);
 
-void remove_from_list(s_linked_list *list, void* node);
+void v_list_remove(s_linked_list *list, void* node);
 
-void remove_first(struct s_node *head);
+void v_list_remove_first(struct s_node *head);
 
-void remove_last(s_linked_list* list);
+void v_list_remove_last(s_linked_list* list);
 
-int get_length(struct s_node *head);
+int v_list_length();
 
-bool is_empty();
+bool v_list_is_empty();
 
-void* list_last_element(s_linked_list* list);
+void* v_list_last_element(s_linked_list* list);
 #endif
 
 

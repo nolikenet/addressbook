@@ -21,11 +21,11 @@ s_contact* user_input_add_contact(s_linked_list* contact_list)
      int id = 0;
      s_contact* latest_contact;
 
-     if (is_list_empty(contact_list)) {   } 
+     if (v_list_is_empty(contact_list)) {   } 
 
      else 
      {
-        latest_contact = (s_contact*)list_last_element(contact_list);
+        latest_contact = (s_contact*)v_list_last_element(contact_list);
         id = latest_contact->id + 1;
      }
 
@@ -39,10 +39,6 @@ s_contact* user_input_add_contact(s_linked_list* contact_list)
 
 void handle_prompt(s_linked_list* contact_list, char* data_path)
 {
-   /* s_contact* item = (s_contact*)contact_list->head->data;
-    printf("contact list address... %p \n ", contact_list);
-    printf("Head data is %s \n ", item->surname);*/
-
 	int input;
     printf("\n Choose Action: \n 1. Find Contact \n 2. Add Contact \n 3. Remove Contact by id \n 4. Save and exit. \n");
     scanf("%d", &input);

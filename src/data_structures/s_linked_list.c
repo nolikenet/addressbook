@@ -2,7 +2,7 @@
 #include "common.h"
 #include "s_contact.h"
 
-s_linked_list *create_linked_list() {
+s_linked_list *v_list_create() {
 	s_linked_list *list = malloc(sizeof(s_linked_list));
 	list->head = NULL;
 	list->tail = NULL;
@@ -12,7 +12,7 @@ s_linked_list *create_linked_list() {
 	return list;
 }
 
-bool push_to_list(s_linked_list *list, void *data) {
+bool v_list_push(s_linked_list *list, void *data) {
 	struct s_node* new_item = malloc(sizeof(struct s_node));
 
 	new_item->data = data;
@@ -40,7 +40,7 @@ bool push_to_list(s_linked_list *list, void *data) {
     return true;
 }
 
-void remove_from_list(s_linked_list *list, void *data) {
+void v_list_remove(s_linked_list *list, void *data) {
 
 	struct s_node* temp = list->head;
 	struct s_node* prev = NULL;
@@ -66,7 +66,7 @@ void remove_from_list(s_linked_list *list, void *data) {
 	}
 }
 
-void remove_last(s_linked_list* list) {
+void v_list_remove_last(s_linked_list* list) {
 
 	if (list->head->next == NULL)
 	{
@@ -91,7 +91,7 @@ void remove_last(s_linked_list* list) {
 	list->tail = prevTail;
 }
 
-void print_list(s_linked_list *list)
+void v_list_print(s_linked_list *list)
 {
 	struct s_node* temp = list->head;
 	if (temp == NULL)
@@ -107,18 +107,18 @@ void print_list(s_linked_list *list)
 	}
 }
 
-int get_list_length(s_linked_list *list) {
+int v_list_length(s_linked_list *list) {
 	return list->length;
 }
 
-bool is_list_empty(s_linked_list *list)
+bool v_list_is_empty(s_linked_list *list)
 {
     return list->length == 0;
 }
 
-void* list_last_element(s_linked_list* list)
+void* v_list_last_element(s_linked_list* list)
 {
-    if (is_list_empty(list))
+    if (v_list_is_empty(list))
     {
         printf("List is empty \n");
         return NULL;

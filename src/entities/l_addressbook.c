@@ -4,13 +4,10 @@ cJSON* json_root_object = NULL;
 
 s_linked_list* address_book_init(char* data_path)
 {
-    s_linked_list* contact_list = create_linked_list();
-
-    printf("contact list addr %p \n", contact_list);
+    s_linked_list* contact_list = v_list_create();
 
     populate_list_from_buffer(read_storage(data_path), contact_list);
     
-    printf("contact list addr 2! %p \n", contact_list);
     return contact_list;
 }
 
@@ -33,7 +30,7 @@ void populate_list_from_buffer(char* buff, s_linked_list* contact_list)
         if (cJSON_IsString(name) && (name->valuestring != NULL))
         {
              s_contact* contact = create_contact(id->valueint, name->valuestring, surname->valuestring, address->valuestring, phone->valueint); 
-             push_to_list(contact_list, contact);
+             v_list_push(contact_list, contact);
              printf("\n");
         }
     }
@@ -59,7 +56,6 @@ char* read_storage(char* path)
 s_contact* search_contact(const char* query, s_linked_list* contact_list)
 {
     struct s_node* tmp = contact_list->head;
-
 
     while(tmp != NULL)
     {
@@ -88,7 +84,7 @@ s_contact* search_contact(const char* query, s_linked_list* contact_list)
 bool json_write_contact(s_contact* contact, s_linked_list* contact_list)
 {
     printf("Writing Contact \n ");
-    if (push_to_list(contact_list, contact) != true)
+    if (v_list_push(contact_list, contact) != true)
     {
         printf("Error: data hasn't been pushed to list \n ");
         return false;
@@ -117,7 +113,7 @@ void save_data(const char* path)
 void remove_contact_by_id(unsigned int id, s_linked_list* contact_list)
 {
     printf("Trying to remove \n ");
-    if (is_list_empty(contact_list))
+    if (v_list_is_empty(contact_list))
     {
        printf("List is empty \n");
        return;
@@ -143,7 +139,7 @@ void remove_contact_by_id(unsigned int id, s_linked_list* contact_list)
         s_contact* contact = temp->data;
         if (contact->id == id)
         {
-            remove_from_list(contact_list, contact);
+            v_list_remove(contact_list, contact);
             printf("Contact removed \n");
             return;
         }
