@@ -60,6 +60,7 @@ s_contact* search_contact(const char* query, s_linked_list* contact_list)
 {
     struct s_node* tmp = contact_list->head;
 
+
     while(tmp != NULL)
     {
         s_contact* data = tmp->data;

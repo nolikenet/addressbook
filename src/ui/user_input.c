@@ -55,11 +55,13 @@ void handle_prompt(s_linked_list* contact_list, char* data_path)
 
     if (input == 1)
     {
-    	const char* name;
+    	char name[TEXT_FIELD_MAX_SIZE];
     	printf("Enter person's name: \n");
         scanf("%s", name);
 
-        const char* surname;
+        printf("Name is %s ", name);
+
+        char surname[TEXT_FIELD_MAX_SIZE];
     	printf("Enter person's surname: \n");
         scanf("%s", surname);
 
