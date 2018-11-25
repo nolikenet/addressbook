@@ -8,6 +8,8 @@
 #ifndef AddressBook_H_ 
 #define AddressBook_H_
 
+s_linked_list* address_book_init(char* data_path);
+
 void populate_list_from_buffer(char* buff, s_linked_list* contact_list);
 
 s_contact* search_contact(const char* query, s_linked_list* contact_list);
